@@ -9,29 +9,38 @@
     <div>
       <label for="email">Email</label>
     </div>
-    <input type="email" name="email">
+    <input type="email" name="email" id="email">
     <div>
       <label for="yCodingCool">Why is coding cool?</label>
     </div>
-    <select name="yCodingCool">
+    <select name="yCodingCool" id="yCodingCool">
       <option value="">Select an option</option>
       <option value="interesting">Because it's interesting</option>
       <option value="fun">Because it's fun</option>
       <option value="powerful">Because it's powerful</option>
     </select>
-    <div><br><label for="favLang">Favorite Language (choose one)</label></div>
-    <br>
-    <input type="radio" name="favLang" value="html">HTML
-    <input type="radio" name="favLang" value="css">CSS
-    <input type="radio" name="favLang" value="js">JavaScript
-    <div><br>
-      <label for="signUp">Would you like to sign up for more information?</label>
+    <div>
+      <p>Favorite Language (choose one)</p>
     </div>
-    <br>
-    <input type="checkbox" name="signUp" value="signedUp">Sign me up!
-    <div><label for="comments">Comments</label></div>
-    <textarea name="comments" cols="30" rows="10"></textarea>
-    <div><input type="submit" name="submit" value="Submit"></div>
+    <div>
+      <label><input type="radio" name="favLang" value="html">HTML</label>
+      <label><input type="radio" name="favLang" value="css">CSS</label>
+      <label><input type="radio" name="favLang" value="js">JavaScript</label>
+    </div>
+    <div>
+      <p>Would you like to sign up for more information?</p>
+      <label>
+        <input type="checkbox" name="signUp" value="signedUp" id="signUp">Sign me up!
+      </label>
+    </div>
+
+    <div>
+      <label for="comments">Comments</label>
+    </div>
+    <textarea name="comments" cols="30" rows="10" id="comments"></textarea>
+    <div>
+      <input type="submit" name="submit" value="Submit">
+    </div>
   </form>
 </body>
 </html>
