@@ -1,0 +1,44 @@
+* {
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  max-width: 800px;
+  margin: auto;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.container:nth-child(1) {
+  justify-content: start;
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.col-full {
+  flex-basis: 100%;
+}
+
+.col-one-third {
+  flex-basis: 33%;
+}
+
+.col-two-thirds {
+  flex-basis: 66%;
+}
+
+.col-one-fourth {
+  flex-basis: 25%;
+}
+
+img {
+  width: 100%;
+}
+
+h2 {
+  margin: 0;
+}
