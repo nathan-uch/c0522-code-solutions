@@ -3,15 +3,8 @@
 }
 
 .container {
-  display: flex;
   max-width: 800px;
   margin: auto;
-  flex-flow: wrap;
-  justify-content: center;
-}
-
-.container:nth-child(1) {
-  justify-content: start;
 }
 
 .row {
