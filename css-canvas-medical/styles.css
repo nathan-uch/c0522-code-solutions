@@ -1,5 +1,4 @@
 /* FLEXBOX PROPERTIES */
-
 .container {
   max-width: 800px;
   margin-left: auto;
@@ -113,6 +112,11 @@ a:visited {
   margin: 0 20px;
 }
 
+.navbar-selected-page {
+  color: #0a4265;
+  margin: 0 20px;
+}
+
 hr {
   border: 0;
   height: 0;
@@ -122,17 +126,7 @@ hr {
 /* HERO IMAGE SECTION */
 .hero-image-section {
   margin: 50px;
-}
-
-.img-container {
   position: relative;
-  min-height: 420px;
-  min-width: 720px;
-}
-
-.overlay {
-  background: rgb(99 97 97 / 50%);
-  position: absolute;
 }
 
 .img-container,
@@ -142,14 +136,22 @@ hr {
   height: 100%;
 }
 
-.hero-img-text {
+.hero-img {
+  display: block;
+}
+
+.overlay {
+  background: rgb(94 91 91 / 40%);
   position: absolute;
-  top: 0;
+}
+
+.hero-img-text {
+  flex-wrap: wrap;
+  position: absolute;
+  top: 50px;
+  left: 50px;
   width: 45%;
-  height: auto;
-  z-index: 1;
   color: rgb(244 244 244);
-  margin: 60px 0 0 50px;
 }
 
 .hero-img-header {
