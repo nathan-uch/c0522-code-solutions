@@ -25,8 +25,7 @@ function isEven(number) {
 }
 
 function startsWithJ(string) {
-  var array = string.split('');
-  if (array[0] === 'J') {
+  if (string[0] === 'J') {
     return true;
   } else {
     return false;
