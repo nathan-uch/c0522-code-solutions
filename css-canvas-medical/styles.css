@@ -33,6 +33,10 @@
   justify-content: space-evenly;
 }
 
+.light-grey-bg {
+  background-color: #fbfbfb;
+}
+
 /* HEADERS */
 .medium-grey-header {
   font-family: "Tiempos Headline", "Times New Roman", Times, serif;
@@ -145,12 +149,19 @@ hr {
   position: absolute;
 }
 
-.hero-img-text {
-  flex-wrap: wrap;
+.main-hero-img-text {
   position: absolute;
   top: 50px;
   left: 50px;
   width: 45%;
+  color: rgb(244 244 244);
+}
+
+.product-hero-img-text {
+  position: absolute;
+  top: 30%;
+  left: 50px;
+  width: 50%;
   color: rgb(244 244 244);
 }
 
