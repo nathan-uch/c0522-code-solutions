@@ -1,6 +1,5 @@
 /* exported getSecondCharacter */
 function getSecondCharacter(string) {
-  var array = string.split('');
-  var secondLetter = array[1];
+  var secondLetter = string[1];
   return secondLetter;
 }

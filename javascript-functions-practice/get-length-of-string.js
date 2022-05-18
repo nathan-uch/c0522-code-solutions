@@ -1,6 +1,5 @@
 /* exported getLengthOfString */
 function getLengthOfString(string) {
-  var array = string.split('');
-  var length = array.length;
+  var length = string.length;
   return length;
 }
