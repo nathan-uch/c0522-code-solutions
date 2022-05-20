@@ -1,13 +1,15 @@
 /* exported addSuffixToAll */
+
+// create an array to hold the new words with added suffix
+// loop over each each word given
+// add suffix to each word
+// add the new word to the array
+// return the array containing all new words
+
 function addSuffixToAll(words, suffix) {
-  // create an array to hold the new words with added suffix
-  var suffixed = [];
-  // loop over each each word given
+  var newWords = [];
   for (var i = 0; i < words.length; i++) {
-    // add suffix to each word
-    // add the new word to the array
-    suffixed.push(words[i] += suffix);
+    newWords.push(words[i] + suffix);
   }
-  // return the array containing all new words
-  return suffixed;
+  return newWords;
 }
