@@ -25,6 +25,10 @@ body {
   font-size: 0.8rem;
 }
 
+.highlight-bg {
+  background-color: #fff2e7;
+}
+
 .light-grey-font {
   color: rgb(167 165 165);
 }
