@@ -8,7 +8,7 @@
 
 function invert(source) {
   var finalObj = {};
-  for (const prop in source) {
+  for (var prop in source) {
     finalObj[source[prop]] = prop;
   }
   return finalObj;

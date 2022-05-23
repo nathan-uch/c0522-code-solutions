@@ -7,7 +7,7 @@
 // return the target
 
 function defaults(target, source) {
-  for (const sourceProp in source) {
+  for (var sourceProp in source) {
     if (sourceProp in target === false) {
       target[sourceProp] = source[sourceProp];
     }

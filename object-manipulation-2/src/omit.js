@@ -10,11 +10,11 @@
 
 function omit(source, keys) {
   var finalObj = {};
-  for (const inputProp in source) {
+  for (var inputProp in source) {
     finalObj[inputProp] = source[inputProp];
   }
 
-  for (const property in finalObj) {
+  for (var property in finalObj) {
     for (var i = 0; i < keys.length; i++) {
       if (property === keys[i]) {
         delete finalObj[property];
