@@ -15,21 +15,36 @@
 
 function titleCase(title) {
   var finalString = '';
+  var finishedArray = [];
   var titleArray = title.split(' ');
-  var finalArray = [];
+  var doNotCap = ['and', 'or', 'nor', 'but', 'a', 'an', 'the', 'as', 'at', 'by', 'for', 'in', 'of', 'on', 'per', 'to'];
+
   for (var i = 0; i < titleArray.length; i++) {
-    var currentWord = titleArray[i].toLowerCase();
-    if (i === 0 || titleArray[i].length > 4) {
-      var wordArray = currentWord.split('');
-      var firstLetter = wordArray[0].toUpperCase();
-      wordArray.splice(0, 1);
-      var restOfWord = wordArray.join('');
-      var finalWord = firstLetter + restOfWord;
-      finalArray.push(finalWord);
-    } else {
-      finalArray.push(currentWord);
+    var currentWord = titleArray[i];
+    var firstLetter = currentWord[0].toUpperCase();
+    var restOfWord = currentWord.substring(1, currentWord.length).toLowerCase();
+    var finalWord = firstLetter + restOfWord;
+
+    for (let q = 0; q < doNotCap.length; q++) {
+      if (finalWord.toLowerCase() === doNotCap[q] && i !== 0) {
+        finalWord = finalWord.toLowerCase();
+      }
     }
-    finalString = finalArray.join(' ');
+
+    if (currentWord.toLowerCase() === 'javascript') {
+      finalWord = 'JavaScript';
+    } else if (currentWord.toLowerCase() === 'javascript:') {
+      finalWord = 'JavaScript:';
+    } else if (currentWord.toLowerCase() === 'api') {
+      finalWord = 'API';
+    } else if (currentWord.includes(':')) {
+      // var semicolonIndex = titleArray.indexOf(':');
+
+    }
+
+    finishedArray.push(finalWord);
   }
+
+  finalString = finishedArray.join(' ');
   return finalString;
 }
