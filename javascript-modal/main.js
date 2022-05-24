@@ -6,9 +6,9 @@ $openModal.addEventListener('click', openModal);
 $noBtn.addEventListener('click', closeModal);
 
 function openModal(event) {
-  $modalCont.style.display = 'block';
+  $modalCont.className = 'modal-container modal-visible';
 }
 
 function closeModal(event) {
-  $modalCont.style.display = 'none';
+  $modalCont.className = 'modal-container modal-invisible';
 }
