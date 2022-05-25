@@ -5,8 +5,14 @@
   font-size: 1.3rem;
 }
 
+span,
+.accuracy {
+  color: #f6cd17;
+}
+
 .row {
   display: flex;
+  background-color: black;
 }
 
 .col-full {
@@ -60,7 +66,8 @@
 }
 
 .reset {
+  background-color: black;
+  color: #f6cd17;
+  border: 3px solid #f6cd17;
   border-radius: 3px;
-  border: 1.5px solid black;
-  padding: 5px 20px;
 }
