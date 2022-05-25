@@ -1,8 +1,12 @@
 /* exported isPalindromic */
 
-// remove string spaces and whitespace from the original stirng and assign it to a new variable
-// create a variable for the reversed string
-// convert string to array and assign to new variable
+// declare a new variable to hold the string with no whitespace
+// loop over the original string
+// check if the current letter at the index is not space
+// then add it to the variable
+// declare an empty variable to hold reversed string
+// convert string to an array and assign to new variable
+// declare a variable to hold array
 // loop through the array and unshift each letter
 // join the array to create reversed string
 // compare if the reversed string is equal to the original string
@@ -10,10 +14,18 @@
 // if not, return false
 
 function isPalindromic(string) {
-  var originalString = string.replace(/\s+/g, '');
+  var originalString = '';
+
+  for (let i = 0; i < string.length; i++) {
+    if (string[i] !== ' ') {
+      originalString += string[i];
+    }
+  }
+
   var reversedString = '';
   var array = originalString.split('');
   var reversedArray = [];
+
   for (let i = 0; i < array.length; i++) {
     reversedArray.unshift(array[i]);
   }
