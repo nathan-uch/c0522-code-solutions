@@ -5,6 +5,10 @@
   font-size: 1.3rem;
 }
 
+body {
+  background-color: black;
+}
+
 span,
 .accuracy {
   color: #f6cd17;
@@ -12,7 +16,6 @@ span,
 
 .row {
   display: flex;
-  background-color: black;
 }
 
 .col-full {
