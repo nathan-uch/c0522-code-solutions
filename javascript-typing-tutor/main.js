@@ -9,7 +9,7 @@ var $resetBtn = document.querySelector('.reset');
 $resetBtn.addEventListener('click', reset);
 
 function checkLetter(event) {
-  if (($letters[currentIndex].textContent === event.key) || ($letters[currentIndex].innerHTML === '&nbsp;' && event.key === ' ')) {
+  if (($letters[currentIndex].textContent === event.key)) {
     $letters[currentIndex].className = 'correct';
     currentIndex++;
     $letters[currentIndex].className = 'current';
@@ -36,3 +36,10 @@ function reset(event) {
     $accuracy.textContent = 'Accuracy: 100%';
   }
 }
+
+// prevent spacebar from scrolling down the page
+window.addEventListener('keydown', function (event) {
+  if (event.keyCode === 32 && event.target === document.body) {
+    event.preventDefault();
+  }
+});
