@@ -15,8 +15,15 @@
 </head>
 
 <body>
+  <div class="row input-text">
+    <div class="col-full flex-center input-container">
+      <label for="text"></label>
+      <textarea name="text" rows="1" cols="20" class="text-box" placeholder="text here..."></textarea>
+      <button type="button" class="btn-style create-text-btn">Create Text</button>
+    </div>
+  </div>
   <div class="row flex-center container">
-    <div class="col-full flex-center typing-text-container">
+    <div class="col-full flex-center flex-wrap typing-text-container">
       <span class="current">i</span>
       <span>t</span>
       <span> </span>
@@ -518,9 +525,9 @@
       <span>.</span>
       <span>.</span>
     </div>
-    <div class="col-full flex-center display">
+    <div class="col-full flex-center flex-wrap display">
       <p class="accuracy">Accuracy: 100%</p>
-      <button type="button" class="reset">Reset</button>
+      <button type="button" class="btn-style reset">Reset</button>
     </div>
   </div>
   <script src="main.js"></script>
