@@ -1,18 +1,22 @@
 * {
   box-sizing: border-box;
-  margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 body {
   background-color: black;
   white-space: pre;
   font-family: "Libre Franklin", sans-serif;
+  color: #f6cd17;
 }
 
 span,
 .accuracy {
   color: #f6cd17;
+}
+
+.input-container > label {
+  margin: 0 30% 10px;
 }
 
 .row {
@@ -37,6 +41,7 @@ span,
 .text-box {
   font-family: inherit;
   resize: none;
+  margin: 0 30px;
 }
 
 .input-container {
@@ -71,7 +76,7 @@ span,
 .typing-text-container {
   min-width: 605px;
   max-width: 720px;
-  margin: 0 15% 70px;
+  margin: 0 10% 70px;
 }
 
 .display {
@@ -88,5 +93,5 @@ span,
   border: 3px solid #f6cd17;
   border-radius: 3px;
   padding: 5px 25px;
-  margin: 30px 30% 0;
+  margin: 15px 30% 0;
 }
