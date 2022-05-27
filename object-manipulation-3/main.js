@@ -32,63 +32,54 @@ function createNShuffleDeck() {
       deck.push(card);
     }
   }
-
   var shuffled = _.shuffle(deck);
   console.log('cards shuffled', shuffled, 'deck length:', shuffled.length);
   return shuffled;
 }
 
-function playRound(players, cards) {
-  var deck = createNShuffleDeck();
-
-  var winner = players[0];
-
+function dealCards(players, deck, cardNum) {
   for (var i = 0; i < players.length; i++) {
     var currentP = players[i];
-    var cardsDealt = deck.splice(0, cards);
+    var cardsDealt = deck.splice(0, cardNum);
     currentP.cards = cardsDealt;
-    var points = 0;
-    var handConsoleLog = 'Player\'s hand ' + (i + 1) + ': ';
-
-    for (var c = 0; c < cardsDealt.length; c++) {
-      if (cardsDealt[c].rank === 'jack' || cardsDealt[c].rank === 'queen' || cardsDealt[c].rank === 'king') {
-        points += 10;
-      } else if (cardsDealt[c].rank === 'ace') {
-        points += 11;
-      } else {
-        points += Number(cardsDealt[c].rank);
-      }
-      currentP.points = points;
-      handConsoleLog += ' [' + cardsDealt[c].rank + ', ' + cardsDealt[c].suit + '] ';
-    }
-
-    console.log(handConsoleLog);
-
-    if (winner.points < currentP.points) {
-      winner = currentP;
-    }
+    getPoints(currentP);
   }
+}
 
-  console.log(players[0].name + ' : ' + players[0].points + ' points');
-  console.log(players[1].name + ' : ' + players[1].points + ' points');
-  console.log(players[2].name + ' : ' + players[2].points + ' points');
-  console.log(players[3].name + ' : ' + players[3].points + ' points');
+function getPoints(player) {
+  var cards = '';
+  player.points = 0;
+  for (var c = 0; c < player.cards.length; c++) {
+    if (player.cards[c].rank === 'jack' || player.cards[c].rank === 'queen' || player.cards[c].rank === 'king') {
+      player.points += 10;
+    } else if (player.cards[c].rank === 'ace') {
+      player.points += 11;
+    } else {
+      player.points += Number(player.cards[c].rank);
+    }
+    cards += '[' + player.cards[c].rank + ', ' + player.cards[c].suit + '] ';
+  }
+  console.log(player.name + '\'s cards: ' + cards);
+  console.log(player.name + ' : ' + player.points + ' points');
+}
 
-  for (var w = 0; w < players.length; w++) {
-    if (winner.points === players[w].points && winner.name !== players[w].name) {
+function playRound(players, cardNum) {
+  var deck = createNShuffleDeck();
+  dealCards(players, deck, cardNum);
+  getWinner(players);
+}
+
+function getWinner(players) {
+  var winner = players[0];
+  for (var w = 1; w < players.length; w++) {
+    if (winner.points < players[w]) {
+      winner = players[w];
+    }
+
+    if (winner.points === players[w].points) {
       // winner = tieBreaker(winner, players[w], deck);
     }
   }
-
-  console.log('Winner:', winner.name + ' with ' + winner.points + ' points!');
 }
-
-// function tieBreaker(player1, player2, remainingDeck) {
-//   console.log('There has been a tie between ' + player1.name + ' and ' + player2.name);
-//   var player1Cards = remainingDeck.splice(0, 2);
-//   var player2Cards = remainingDeck.splice(0, 2);
-
-//   return tieWinner;
-// }
 
 playRound(players, 3);
