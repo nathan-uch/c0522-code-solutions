@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+}
+
+.col-full {
+  flex-basis: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.imgs-container {
+  display: inline;
+  min-width: 500px;
+  height: auto;
+  margin: 0;
+  text-align: center;
+}
+
+.middle-container {
+  min-width: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.dots-container {
+  text-align: center;
+  width: 100%;
+  margin-top: 50px;
+}
+
+a:active,
+a:visited {
+  text-decoration: none;
+  color: black;
+}
