@@ -1,26 +1,27 @@
-// query select the display
-// set a variable time to null
+// query select current display
+// get the time by converting the text content to a number
+// declare a count variable which equals the time number
 // declare a count down function
-// this function checks if time is 0,
+// this function checks if current display countdown is at 0,
 //     if yes it will display the final message
 //     and it will clear the set timeout for the countdown
-//     if not, it will display the current time, remove 1 from the time and..
-//     call the set timeout with the current time
+//     if not, it will display count as text content
+//     and will decrement the count
 // create a setTimeout function with the arguments of the count down function, one second delay and the time...
 // assign it to a variable to be used in the clear timeout
 
 var $display = document.querySelector('.countdown-display');
-var time = 4;
+var time = Number($display.textContent);
+var count = time;
 
 function countDown(time) {
-  if (time === 0) {
+  if (count === 0) {
     $display.textContent = '~Earth Beeeelooowww Us~';
     clearTimeout(countDownTimeout);
   } else {
-    $display.textContent = time;
-    time--;
-    setTimeout(countDown, 1000, time);
+    $display.textContent = count;
+    count--;
   }
 }
 
-var countDownTimeout = setTimeout(countDown, 1000, time);
+var countDownTimeout = setInterval(countDown, 1000, time);
