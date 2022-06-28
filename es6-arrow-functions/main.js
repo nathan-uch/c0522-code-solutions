@@ -4,10 +4,7 @@ const $jokeForm = document.querySelector('#joke-form');
 
 const jokester = {
 
-  tellJoke: (setup, punchline) => {
-    this.renderJokePhrase = jokester.renderJokePhrase;
-    this.appendJokePhrase = jokester.appendJokePhrase;
-
+  tellJoke: function (setup, punchline) {
     $jokeForm.classList.add('d-none');
     const $introStatement = this.renderJokePhrase('Hey Flash...');
     this.appendJokePhrase($introStatement);
@@ -34,9 +31,8 @@ const jokester = {
 
 const flash = {
   laughingUrl: 'images/flash-laugh.gif',
-  laugh: () => {
+  laugh: function () {
     setTimeout(() => {
-      this.laughingUrl = flash.laughingUrl;
       $flashImage.setAttribute('src', this.laughingUrl);
     }, 3000);
   }
