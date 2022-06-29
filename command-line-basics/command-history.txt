@@ -1,0 +1,102 @@
+    1  git status
+    2  git pull origin main
+    3  git status
+    4  git branch es6-arrow-functions
+    5  git switch es6-arrow-functions
+    6  git add .
+    7  tatus
+    8  git status
+    9  git commit -m "Completed ES6-arrow-functions."
+   10  git push origin es6-arrow-functions
+   11  git switch main
+   12  git switch es6-arrow-functions
+   13  git add .
+   14  git status
+   15  git commit -m "Reverted arrows functions to regular functions where 'this' is used."
+   16  git push origin es6-arrow-functions
+   17  git switch main
+   18  git pull origin main
+   19  git branch command-line-basics
+   20  git switch command-line-basics
+   21  cd command-line-basics
+   22  man man
+   23  man cat
+   24  man cat
+   25  man cat
+   26  man cat
+   27  cat laziness.text impatience.text hubris.text > three-virtues.txt
+   28  cat laziness.txt
+   29  cat impatience.txt
+   30  cat hubris.text
+   31  cat hubris.txt
+   32  cat laziness.txt impatience.txt hubris.txt
+   33  cat laziness.txt impatience.txt hubris.txt > three-virtues.txt
+   34  cat three-virtues.txt
+   35  man ls
+   36  ls 
+   37  ls -a
+   38  ls -F
+   39  man ls
+   40  ls lfz-staff/
+   41  ls lfz-staff/ -a
+   42  ls lfz-staff/ -F
+   43  ls -aF
+   44  ls -aF
+   45  ls -aF lfz-staff > lfz-staff/contents.txt
+   46  cat lfz-staff/contents.txt
+   47  man pwd
+   48  pwd
+   49  pwd > i-was-here.txt
+   50  ls
+   51  cat i-was-here.txt
+   52  man echo
+   53  echo 'Hello, World!'
+   54  echo 'Hello, World!' > hello.txt
+   55  ls
+   56  cat hello.txt
+   57  man touch
+   58  touch tag-youre-it.txt
+   59  touch snoot/boop.txt
+   60  ls
+   61  ls snoot/
+   62  man mkdir
+   63  man mkdir
+   64  mkdir parent
+   65  ls
+   66  ls parent
+   67  mkdir -p /parent/child/grandchild
+   68  man mkdir
+   69  mkdir -p --/parent child/grandchild
+   70  man mkdir
+   71  --help
+   72  mkdir --help
+   73  mkdir parent/child/grandchild
+   74  mkdir -parent/child/grandchild
+   75  --help
+   76  mkdir --help
+   77  mkdir -p child/grandchild
+   78  mkdir -parent child/grandchild
+   79  mkdir --parent child/grandchild
+   80  mkdir -p parent/child/grandchild
+   81  touch parent/child/grandchild/.gitkeep
+   82  ls -a
+   83  ls -a parent/child/grandchild
+   84  man mv
+   85  man mv
+   86  mv pokiemans pokemon
+   87  ls
+   88  man rm
+   89  rm lol.txt
+   90  ls
+   91  rm -m kill-me/
+   92  rm -r kill-me/
+   93  ls
+   94  man cp
+   95  cp and-then.txt no-and-then.txt
+   96  ls
+   97  cat and-then.txt
+   98  cat no-and-then.txt
+   99  man history
+  100  history
+  101  touch command-history.txt
+  102  history > command-history.txt
