@@ -1,11 +1,18 @@
 const fs = require('fs');
 
-let currentFile = null;
+const allFiles = process.argv.slice(2, process.argv.length);
+let count = 0;
 
-for (var i = 2; i < process.argv.length; i++) {
-  currentFile = process.argv[i];
-  fs.readFile(currentFile, 'utf-8', (err, data) => {
+const readAll = () => {
+  if (count >= allFiles.length) {
+    return;
+  }
+  fs.readFile(allFiles[count], 'utf-8', (err, data) => {
     if (err) throw err;
     console.log(data);
+    count++;
+    readAll();
   });
-}
+};
+
+readAll();
