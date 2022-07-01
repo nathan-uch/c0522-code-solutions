@@ -4,12 +4,9 @@ const jsonFile = require('./data.json');
 const command = process.argv[2];
 
 const read = () => {
-  fs.readFile('data.json', 'utf-8', (err, data) => {
-    if (err) throw err;
-    for (const note in jsonFile.notes) {
-      console.log(`${note} : ${jsonFile.notes[note]}`);
-    }
-  });
+  for (const note in jsonFile.notes) {
+    console.log(`${note} : ${jsonFile.notes[note]}`);
+  }
 };
 
 const addRemoveUpdate = data => {
