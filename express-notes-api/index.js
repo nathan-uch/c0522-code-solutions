@@ -1,6 +1,16 @@
 const express = require('express');
+const fs = require('fs');
 const dataFile = require('./data.json');
 const app = express();
+
+const addRemoveEdit = (path, data, res) => {
+  fs.writeFile(path, data, err => {
+    if (err) {
+      console.error({ ERROR: 'An unexpected error occurred.' });
+      res.status(500);
+    }
+  });
+};
 
 app.get('/api/notes', (req, res) => {
   const allNotes = [];
@@ -38,6 +48,8 @@ app.post('/api/notes', (req, res) => {
     currentNote.id = dataFile.nextId;
     dataFile.notes[dataFile.nextId] = currentNote;
     dataFile.nextId++;
+    const newJSONFile = JSON.stringify(dataFile, null, 2);
+    addRemoveEdit(newJSONFile, res);
     res.json(currentNote);
   }
 });
@@ -53,6 +65,8 @@ app.delete('/api/notes/:id', (req, res) => {
   } else {
     res.status(204);
     delete dataFile.notes[req.params.id];
+    const newJSONFile = JSON.stringify(dataFile, null, 2);
+    addRemoveEdit(newJSONFile, res);
     res.json();
   }
 });
@@ -72,7 +86,10 @@ app.put('/api/notes/:id', (req, res) => {
   } else {
     res.status(200);
     dataFile.notes[editNoteId].content = newNoteContent;
-    res.json(dataFile.notes[editNoteId]);
+    const updatedNote = dataFile.notes[editNoteId];
+    const newJSONFile = JSON.stringify(dataFile, null, 2);
+    addRemoveEdit(newJSONFile, res);
+    res.json(updatedNote);
   }
 });
 
