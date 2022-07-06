@@ -1,13 +1,11 @@
 const express = require('express');
+const dataFile = require('./data.json');
 const app = express();
-
-let noteId = 1;
-const notes = {};
 
 app.get('/api/notes', (req, res) => {
   const allNotes = [];
-  for (const id in notes) {
-    allNotes.push(notes[id]);
+  for (const id in dataFile.notes) {
+    allNotes.push(dataFile.notes[id]);
   }
   res.status(200);
   res.json(allNotes);
@@ -18,12 +16,12 @@ app.get('/api/notes/:id', (req, res) => {
   if (noteId < 1 || isNaN(noteId) === true) {
     res.status(400);
     res.json({ ERROR: 'ID must be a positive number.' });
-  } else if (notes[noteId] === undefined) {
+  } else if (dataFile.notes[noteId] === undefined) {
     res.status(400);
     res.json({ ERROR: `note with ${noteId} not found.` });
   } else {
     res.status(200);
-    res.json(notes);
+    res.json(dataFile.notes);
   }
 });
 
@@ -37,10 +35,10 @@ app.post('/api/notes', (req, res) => {
   } else {
     res.status(201);
     const currentNote = content;
-    currentNote.id = noteId;
-    notes[noteId] = currentNote;
-    noteId++;
-    res.send(currentNote);
+    currentNote.id = dataFile.nextId;
+    dataFile.notes[dataFile.nextId] = currentNote;
+    dataFile.nextId++;
+    res.json(currentNote);
   }
 });
 
@@ -49,13 +47,13 @@ app.delete('/api/notes/:id', (req, res) => {
   if (delNoteId < 1 || isNaN(delNoteId) === true) {
     res.status(400);
     res.json({ ERROR: 'ID must be a positive number.' });
-  } else if (notes[delNoteId] === undefined) {
+  } else if (dataFile.notes[delNoteId] === undefined) {
     res.status(404);
     res.json({ ERROR: `The note with the ID ${delNoteId} does not exist.` });
   } else {
     res.status(204);
-    delete notes[req.params.id];
-    res.send();
+    delete dataFile.notes[req.params.id];
+    res.json();
   }
 });
 
@@ -68,20 +66,14 @@ app.put('/api/notes/:id', (req, res) => {
   } else if (newNoteContent === undefined) {
     res.status(400);
     res.json({ ERROR: 'Content is a required field.' });
-  } else if (notes[editNoteId] === undefined) {
+  } else if (dataFile.notes[editNoteId] === undefined) {
     res.status(404);
     res.json({ ERROR: `The note with the ID ${editNoteId} does not exist.` });
   } else {
     res.status(200);
-    notes[editNoteId].content = newNoteContent;
-    res.send(notes[editNoteId]);
+    dataFile.notes[editNoteId].content = newNoteContent;
+    res.json(dataFile.notes[editNoteId]);
   }
-});
-
-app.use((req, res) => {
-  const error = ({ ERROR: 'An unexpected error occurred.' });
-  res.status(404).status(500).send(error);
-  console.error(error);
 });
 
 app.listen(3000, () => {
