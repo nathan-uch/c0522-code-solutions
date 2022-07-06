@@ -1,16 +1,7 @@
-const express = require('express');
 const fs = require('fs');
 const dataFile = require('./data.json');
+const express = require('express');
 const app = express();
-
-const addRemoveEdit = (path, data, res) => {
-  fs.writeFile(path, data, err => {
-    if (err) {
-      console.error({ ERROR: 'An unexpected error occurred.' });
-      res.status(500);
-    }
-  });
-};
 
 app.get('/api/notes', (req, res) => {
   const allNotes = [];
@@ -43,14 +34,21 @@ app.post('/api/notes', (req, res) => {
     res.status(400);
     res.json({ ERROR: 'Your note does not contain content.' });
   } else {
-    res.status(201);
     const currentNote = content;
     currentNote.id = dataFile.nextId;
     dataFile.notes[dataFile.nextId] = currentNote;
     dataFile.nextId++;
     const newJSONFile = JSON.stringify(dataFile, null, 2);
-    addRemoveEdit(newJSONFile, res);
-    res.json(currentNote);
+    fs.writeFile('data.json', newJSONFile, err => {
+      if (err) {
+        console.error(err);
+        res.status(500);
+        res.json({ ERROR: 'An unexpected error occurred.' });
+      } else {
+        res.status(201);
+        res.json(newJSONFile);
+      }
+    });
   }
 });
 
@@ -63,11 +61,18 @@ app.delete('/api/notes/:id', (req, res) => {
     res.status(404);
     res.json({ ERROR: `The note with the ID ${delNoteId} does not exist.` });
   } else {
-    res.status(204);
     delete dataFile.notes[req.params.id];
     const newJSONFile = JSON.stringify(dataFile, null, 2);
-    addRemoveEdit(newJSONFile, res);
-    res.json();
+    fs.writeFile('data.json', newJSONFile, err => {
+      if (err) {
+        console.error(err);
+        res.status(500);
+        res.json({ ERROR: 'An unexpected error occurred.' });
+      } else {
+        res.status(204);
+        res.json(newJSONFile);
+      }
+    });
   }
 });
 
@@ -84,12 +89,19 @@ app.put('/api/notes/:id', (req, res) => {
     res.status(404);
     res.json({ ERROR: `The note with the ID ${editNoteId} does not exist.` });
   } else {
-    res.status(200);
     dataFile.notes[editNoteId].content = newNoteContent;
     const updatedNote = dataFile.notes[editNoteId];
     const newJSONFile = JSON.stringify(dataFile, null, 2);
-    addRemoveEdit(newJSONFile, res);
-    res.json(updatedNote);
+    fs.writeFile('data.json', newJSONFile, err => {
+      if (err) {
+        console.error(err);
+        res.status(500);
+        res.json({ ERROR: 'An unexpected error occurred.' });
+      } else {
+        res.status(200);
+        res.json(updatedNote);
+      }
+    });
   }
 });
 
