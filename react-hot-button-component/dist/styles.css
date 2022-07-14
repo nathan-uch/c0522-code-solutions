@@ -1,0 +1,54 @@
+#root {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  min-width: 165px;
+  font-family: sans-serif;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  box-shadow: 3px 3px 0 0 rgb(0 0 0);
+  padding: 1rem 1.5rem;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.cold {
+  color: black;
+  background-color: white;
+}
+
+.cool {
+  color: white;
+  background-color: #351c75;
+}
+
+.warm {
+  color: white;
+  background-color: #674ea7;
+}
+
+.hot {
+  color: rgb(255 255 255);
+  background-color: #e06666;
+}
+
+.burning {
+  color: black;
+  background-color: #f6b26b;
+}
+
+.supernova {
+  color: rgb(0 0 0);
+  background-color: #fbff00;
+}
+
+.toast {
+  color: rgb(255 255 255);
+  background-color: rgb(0 0 0);
+}
