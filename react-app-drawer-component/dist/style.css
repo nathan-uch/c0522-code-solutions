@@ -1,0 +1,93 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.trunk {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+}
+
+/* MAIN PAGE */
+
+.background-page {
+  height: 100vh;
+  background-image: url("images/ghostbusters.webp");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 2rem;
+}
+
+.menu-btn {
+  display: inline;
+  cursor: pointer;
+}
+
+/* BLUR */
+
+.blur {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.on {
+  display: block;
+  position: fixed;
+  background-color: rgb(0 0 0 / 60%);
+  z-index: 1;
+}
+
+/* MENU */
+
+.menu-container {
+  width: 250px;
+  z-index: 2;
+  position: absolute;
+  transition: 0.5s;
+  left: 0;
+}
+
+.col-menu {
+  background-color: white;
+  width: 100%;
+  height: 100vh;
+  border-right: 1px solid black;
+}
+
+h2 {
+  font-size: 1.8rem;
+  padding: 1rem 0.8rem;
+}
+
+.col-menu a {
+  display: block;
+  font-size: 1.3rem;
+  padding: 0.7rem 0.8rem;
+}
+
+.menu-link:visited,
+.menu-link:link,
+.menu-link:active {
+  color: black;
+  text-decoration: none;
+}
+
+.menu-link:hover {
+  background-color: rgb(230 230 230);
+}
+
+.hidden {
+  left: -100%;
+}
