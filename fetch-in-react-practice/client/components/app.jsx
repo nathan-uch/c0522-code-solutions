@@ -93,8 +93,9 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        todos[index] = data;
-        this.setState({ todos });
+        const newTodos = this.state.todos;
+        newTodos[index] = data;
+        this.setState({ todos: newTodos });
       })
       .catch(err => console.error('ERROR:', err));
   }
