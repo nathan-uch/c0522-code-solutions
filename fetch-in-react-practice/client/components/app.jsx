@@ -93,7 +93,7 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        const newTodos = this.state.todos;
+        const newTodos = [...todos];
         newTodos[index] = data;
         this.setState({ todos: newTodos });
       })
