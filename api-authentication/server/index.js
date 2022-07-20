@@ -47,7 +47,6 @@ app.post('/api/auth/sign-in', (req, res, next) => {
   if (!username || !password) {
     throw new ClientError(401, 'invalid login');
   }
-
   /* your code starts here */
   const sql = `
     select "userId", "hashedPassword", "username"
@@ -57,6 +56,9 @@ app.post('/api/auth/sign-in', (req, res, next) => {
   const params = [username];
   db.query(sql, params)
     .then(result => {
+      if (!result.rows[0]) {
+        throw new ClientError(401, 'username does not exist');
+      }
       const username = result.rows[0].username;
       const hashedPassword = result.rows[0].hashedPassword;
       if (!username) {
