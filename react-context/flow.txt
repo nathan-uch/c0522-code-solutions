@@ -1,0 +1,171 @@
+########## User can sign up ##########
+
+--------------------- INPUT ONCHANGE ---------------------
+AuthForm > handleChange(event)
+When a user opens the sign-up page there is a form with two required inputs: a username and a password.
+When a user starts typing in either the username or password input fields, the react component, which was rendered with an 'on change' event,
+triggers a method from the AuthForm component which automatically updates (sets) the state to the current values in each input.
+
+-------- CLIENT SENDS REQUEST (FORM IS SUBMITTED) --------
+AuthForm > handleSubmit(event)
+When a user is done typing a username and password and clicks on the 'register' button, the 'on submit' event from the react component form is triggered.
+1. The 'handleSubmit' method of the react component is called and it first prevents the default action of the form; it prevents the page from reloading.
+2. takes in the 'action' from the props object storing it in a variable
+3. creates a request object which details the method and header of the request
+4. it JSON stringifys the state object of the React Component to use it as the body
+5. Then a POST HTTP request is made to the server by inserting the previous action variable to the end of the URL request path and
+   using the created request object as the body
+
+--------------- SERVER RECEIVES POST REQUEST ---------------
+app.post('/sign-up')
+The express app (server) receives the POST request to the '/sign-up' URL path
+6. destructures the username and password
+7. then it checks if there is no username or password, it YEETS a client error 400 stating that they are required fields to sign-in
+8. If there is a username and password, the argon2 object hashes the password
+9. Then, a SQL database query is made with the query string and parameters containing the username and the returned hashed password
+
+------------------ DATABASE RECEIVES QUERY ------------------
+app.post('/sign-up') > db.query()
+In the database, a row is added to the users table containing a automatically generated userId, the given username and hashed password.
+This row is then returned to the server.
+
+---------- SERVER RECEIVES DATABASE QUERY RESPONSE ----------
+app.post('/sign-up')
+From the promise object made, if there is a return from the database query
+9. the user from the rows of the result is deconstructed
+10. and a response status of 201 with the parsed user row value is returned
+11. if an error occurs, the error is passed to the next middleware
+
+-------------- CLIENT RECEIVES SERVER RESPONSE --------------
+AuthForm > fetch()
+A promise object is returned from the fetch method, and to handle the response,
+12. A second promise is made to JSON parse the response body
+13. Another promise is made which takes in the result data and:
+    a. checks if the action variable from the handle submit method is 'sign-up'
+        if it is, the hash location of the window global object is set to the 'sign-in' page, changing the page from 'sign-up' to 'sign-in'
+    [remaining promise is described in signin section]
+
+
+................................................................................................................................................
+
+########## User can sign in ##########
+
+-------- CLIENT SENDS REQUEST (FORM IS SUBMITTED) --------
+AuthForm > handleSubmit(event)
+After inputting their username and password on the form (while the state is updated in the 'AuthForm' React component), when pressing
+the login button, the 'handleSubmit' method is called and the default refreshing of the page is prevented
+1. the action from the props object is destructured
+2. a request object is made with the 'POST' method, header and with a body containing the state JSON stringyfied'
+3. a fetch POST HTTP request is made to the server by inserting the previous action destructered variable to the end of the URL path
+    and the created request object is passed as the body
+
+-------------- SERVER RECEIVES POST REQUEST --------------
+app.post('/sign-in')
+The express app (server) receives the POST request to the '/sign-in' URL path
+5. destructures the username and password
+6. then it checks if there is no username or password, it YEETS a client error 401 stating there was an invalid login
+7. If there is a username and password a SQL database query is made with the query string and parameters containing the username
+
+----------------- DATABASE RECEIVES QUERY -----------------
+app.post('/sign-in') > db.query()
+From the database query, the database looks for a matching username in the users table and returns the row of the matching
+username containing the user id and hashed password
+
+---------- SERVER RECEIVES DATABASE QUERY RESPONSE ----------
+app.post('/sign-in')
+From the promise object made, if there is a return from the database query
+8. The user value from the result rows is deconstructed
+9. Then, if the user does not exist
+    A client error is YEETED with a 401 status and a inavlid login message
+10. If it exists, the user id and hashed password are deconstructed from the user object
+11. from the argon2 object, the hashed password from the database is verified along the password received from the server request
+12.     in a promise object, if the passwords are not matching, a client error is YEETED with a 401 message displaying invalid login message
+13.     if passwords are matching, the user id and username are assign to a payload variable
+14.     the returned token of the sign method of the jwt object using the payload and the token secret from the env file are assign to a token variable
+15.     and a response object containing the token and payload is JSON parsed and returned
+16. if an error occurs, the error is passed to the next middleware
+
+------------- CLIENT RECEIVES SERVER RESPONSE -------------
+AuthForm > fetch()
+17. From the promise object made, the response from the server is JSON parsed
+    From the following promise object,
+18. the action created from the props is checked if equals to 'sign-up', but if not
+19. The user and token received from the result are checked for truthy (if they exist)
+20. the 'onSignIn' method of the props which references to the 'handleSignIn' method from the App React component, passed down by context is called
+21. The method takes in the result as a parameter and destructurs the user and token from the result object
+22. Then, the user's token is saved by the client (browser) in the local storage
+23. The state of the App React component updates the user causing a rerender of the page
+24. When the render method is called and checks which page to render through the render page method, because the path is set to '',
+the home page is rendered displaying the RICK gif
+
+
+................................................................................................................................................
+
+########## User can stay signed in (even if they refresh the page) ##########
+
+-------- PAGE IS REFRESHED --------
+App > render()
+When a user is already logged in and refreshes the page
+1. the user and route saved in the state from signing in is used as context value
+2. the navbar renders a signout button (because a user exists from context value)
+3. the renderPage() uses the empty string path to trigger the Home React component render
+4. before the Home component's render is complete, it checks if there is a currently logged in user
+    from the context value passed by the App component
+    if there isn't, they are redirected to the sign-in page
+5. if there is a user logged in, the gif is loaded and inserted on the home page
+
+App > componentDidMount()
+4. the 'App' React component's 'component did mount' method is triggerd
+5. an event listener is set for when the hash changes (URL route)
+6.    if it changes, the parseRoute function takes the window location as a new URL
+7.    changes the hash according to the props it received as argument and replaces the old url
+8. the token previously stored in the local storage (from when the user signed-in) is retrieved
+9. if a token is retrieved, it is decoded and set to the user,
+10. if no token is found, the user is set to null, the page is redirected and renderd to the sign in page
+11. the App component's state sets the user and authorizing to 'false'
+    if the page already rendered and isAuthorizing and user are the same, the render() is not triggered
+
+................................................................................................................................................
+
+########## User can sign out ##########
+
+--------- USER CLICKS SIGN OUT ----------
+Navbar > render()
+While a user is still logged in, when the App component renders the Navbar, it checks if a user
+is logged in from the props passed on by the App component from its state.
+1. if yes, a sign out button is created and inserted to the navbar which contains a handle signout on click event listener
+
+Navbar > onClick > App > handleSignOut()
+2. when the user clicks the signout button, it triggers the handle sign out method in the App React component
+3. the browser goes to the local storage and removes the previously saved token
+4. and removes the user from the App setState which triggers an App [re]render()
+
+App > render()
+5. when the App component renders the page again, the user and route from the state (were just cleared) is passed as context values
+6. the navbar renders the initial sign in and sign up buttons because the user context value is null
+
+App > renderPage()
+7. the 'renderPage method' is triggered and checks the current path of the state 'route' property which used the
+    imported module 'parseRoute' function to get the path set to 'sign in'
+8. the 'Auth' React component is then rendered with the sign in contents
+9. and is returned to be inserted on the 'PageContainer'
+
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠿⠿⠿⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡉⠁⠈⠁⠀⠀⠀⠀⠀⠀⠈⠹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⣀⣀⡀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⣿⣾⣾⣷⣾⣿⣿⣿⣿⣿⡆⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⡇⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣿⡆⠀⠀⢹⣿⣷⣚⣿⣿⣿⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣯⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⡂⣨⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠉⠉⣻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇⡀⢳⣿⣿⣏⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠛⢹⣿⠀⠁⠉⠹⣿⣿⡗⢻⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠉⠁⠀⠀⠀⢷⣤⡀⠀⠀⢻⣿⡇⡵⠿⣷⠀⠀⠉⠉⠛⠻⠿⣿⣿⣿⣿
+⣿⣿⣿⣿⡿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣷⣿⣶⣾⣿⣿⣻⣿⣿⠀⠀⠀⠀⠀⠀⠀⠈⠙⠻⣿
+⣿⣿⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸
+⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠛⢻⣍⣛⡛⠛⢻⣿⣿⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘
+⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠶⠿⠯⣭⣭⣟⣏⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣛⣛⣶⠶⠶⡇⠬⢍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣭⣭⣭⣟⣛⡃⠒⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⠶⠦⣤⣭⡇⣉⠙⠓⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀
